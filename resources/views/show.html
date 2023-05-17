@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+    <title>云剪切板</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {}
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+    </style>
+</head>
+<body>
+<div class="m-auto w-full max-w-md">
+    <h1 class="text-3xl font-bold"><a href="/">临时空间</a></h1>
+    <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" method="POST" action="/data/{{ .id }}/update">
+        <div class="mb-4 relative">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="content">
+                内容
+            </label>
+            <textarea
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="content" name="content" rows="10" cols="30">{{ .content }}</textarea>
+            <a href="/data/{{ .id }}/delete">
+                <i class="fas fa-times absolute bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded top-0 right-0"></i>
+            </a>
+        </div>
+        <div class="flex items-center justify-between">
+            <button class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded" onclick="copy()">
+                复制
+            </button>
+            <button class="bg-blue-500 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded" type="submit">
+                修改
+            </button>
+        </div>
+        <div class="rounded overflow-hidden shadow-lg">
+            <div class="px-6 py-4">
+                <div class="font-bold text-xl mb-2">页面二维码</div>
+                <div class="text-gray-700 text-base">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data={{ .url }}" alt="QR code">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    const textarea = document.querySelector("#content");
+
+    function copy() {
+        const text = textarea.value;
+        navigator.clipboard.writeText(text).then(function () {
+            console.log("文本已复制!");
+            alert("文本已复制!");
+        }, function (err) {
+            console.error("文本复制失败!", err);
+            alert("文本复制失败!");
+        });
+    }
+
+</script>
+</body>
+</html>
